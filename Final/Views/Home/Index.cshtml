@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Home Page</h1>
+<nav>
+    @Html.ActionLink("Home", "Index", "Home") |
+    @Html.ActionLink("Doctors", "Index", "Doctors") |
+    @Html.ActionLink("Patients", "Index", "Patients") |
+    @Html.ActionLink("Visits", "Index", "Visits")
+</nav>
