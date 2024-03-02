@@ -12,5 +12,6 @@ namespace Final.Models
         public string Email { get; set; }
         public int TelePhone { get; set; }
         public string Address { get; set; }
+        public string Title {get; set;}
     }
 }

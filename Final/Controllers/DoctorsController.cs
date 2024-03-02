@@ -20,9 +20,40 @@ namespace Final.Controllers
         }
 
         // GET: Doctors
-        public async Task<IActionResult> Index()
+       // public async Task<IActionResult> Index()
+       // {
+      //      return View(await _context.Doctor.ToListAsync());
+      //  }
+
+        public IActionResult Index(string SearchBy, string search)
         {
-            return View(await _context.Doctor.ToListAsync());
+            if (SearchBy == "Name")
+            {
+                return View(_context.Doctor.Where(x=>x.Name.Contains(search) || search == null).ToList());
+            }
+            else
+            {
+                return View(_context.Doctor.Where(x => x.Office.Contains(search) || search == null).ToList());
+
+            }
+        }
+
+        public IActionResult OrderByName()
+        {
+            var doctors = from d in _context.Doctor
+                          orderby d.Name ascending 
+                          select d;
+            return View(doctors);
+
+        }
+
+        public IActionResult OrderByOffice()
+        {
+            var doctors = from d in _context.Doctor
+                          orderby d.Office ascending
+                          select d;
+            return View(doctors);
+
         }
 
         // GET: Doctors/Details/5
@@ -54,7 +85,7 @@ namespace Final.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Office,Email,TelePhone,Address")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("Id,Name,Office,Email,TelePhone,Address,Title")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +117,7 @@ namespace Final.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Office,Email,TelePhone,Address")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Office,Email,TelePhone,Address,Title")] Doctor doctor)
         {
             if (id != doctor.Id)
             {

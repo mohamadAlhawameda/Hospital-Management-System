@@ -19,17 +19,53 @@ namespace Final.Controllers
             _context = context;
         }
 
-        // GET: Visits
-        public async Task<IActionResult> Index()
+        //GET: Visits
+        //public async Task<IActionResult> Index()
+        //{
+        //    var visits = await _context.Visits
+        // .Include(p => p.doctor)
+        // .Include(p => p.patient)
+        // .ToListAsync();
+
+        //    return View(visits);
+        //}
+        public async Task<IActionResult> Index(string SearchBy, string search)
         {
             var visits = await _context.Visits
-         .Include(p => p.doctor)
-         .Include(p => p.patient)
-         .ToListAsync();
+                .Include(p => p.doctor)
+                .Include(p => p.patient)
+                .ToListAsync();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                if (SearchBy == "DateOfVisit")
+                {
+                    visits = visits.Where(x => x.DateOfVisit.ToString().Contains(search)).ToList();
+                }
+                else if (SearchBy == "Complaint")
+                {
+                    visits = visits.Where(x => x.Complaint.Contains(search)).ToList();
+                }
+            }
 
             return View(visits);
         }
 
+
+        //public IActionResult Index(string SearchBy, string search)
+        //{
+        //    if (SearchBy == "DateOfVisit")
+        //    {
+
+        //        return View(_context.Visits.Where(x => x.DateOfVisit.Contains(search) || search == null).ToList());
+        //    }
+        //    else
+        //    {
+
+        //        return View(_context.Visits.Where(x => x.Complaint.Contains(search) || search == null).ToList());
+
+        //    }
+        //}
         // GET: Visits/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -20,13 +20,25 @@ namespace Final.Controllers
         }
 
         // GET: Patients
-        public async Task<IActionResult> Index()
-        {
-            var patients = await _context.Patient
-        .Include(p => p.Doctor)
-        .ToListAsync();
+        //public async Task<IActionResult> Index()
+        //{
+        //    var patients = await _context.Patient
+        //.Include(p => p.Doctor)
+        //.ToListAsync();
 
-            return View(patients);
+        //    return View(patients);
+        //}
+        public IActionResult Index(string SearchBy, string search)
+        {
+            if (SearchBy == "Name")
+            {
+                return View(_context.Patient.Where(x => x.Name.Contains(search) || search == null).ToList());
+            }
+            else
+            {
+                return View(_context.Patient.Where(x => x.Address.Contains(search) || search == null).ToList());
+
+            }
         }
 
         // GET: Patients/Details/5
@@ -58,7 +70,7 @@ namespace Final.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Address,TelePhone,DateOfBirth,DoctorId")] Patient patient)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Address,TelePhone,DateOfBirth,AddimisionDate,DischargeDate,DoctorId")] Patient patient)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +102,7 @@ namespace Final.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Address,TelePhone,DateOfBirth,DoctorId")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Address,TelePhone,DateOfBirth,AddimisionDate,DischargeDate,DoctorId")] Patient patient)
         {
             if (id != patient.Id)
             {
