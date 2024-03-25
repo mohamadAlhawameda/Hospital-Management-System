@@ -17,5 +17,7 @@ namespace Final.Data
         public DbSet<Final.Models.Doctor> Doctor { get; set; } = default!;
         public DbSet<Final.Models.Visits> Visits { get; set; } = default!;
         public DbSet<Final.Models.Patient> Patient { get; set; } = default!;
+        public DbSet<Final.Models.UserModel> UserModel { get; set; } = default!;
+        
     }
 }
